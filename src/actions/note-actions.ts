@@ -4,6 +4,7 @@ import type { CreateNotesDTO, NotesDTO } from "@/types/notes";
 import { createNote } from "@/services/notes";
 import { revalidatePath } from "next/cache";
 import { routes } from "@/lib/routes";
+import { after } from "next/server";
 
 export type NoteActionState =
   | {status: 'idle'}
@@ -34,6 +35,11 @@ export async function createNoteAction(
   }
 
   const data = await createNote(input);
+
+  after(async () => {
+    await new Promise(res => setTimeout(res, 3000));
+    console.log(`[LOG]: Note created: ${data.id} at ${data.created_at}`);
+  })
 
   revalidatePath(routes.board);
 
