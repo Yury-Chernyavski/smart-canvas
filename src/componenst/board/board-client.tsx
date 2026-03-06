@@ -1,7 +1,7 @@
 'use client'
 
 import { FC, use, useActionState, useOptimistic } from "react";
-import { BoardClientType } from "@/types/board/board-client-types";
+import { BoardClientType } from "@/types/board/board-client.type";
 import { createNoteAction } from "@/actions/note-actions";
 import { AddNoteForm } from "@/componenst/board/add-note-form";
 import { NotesDTO } from "@/types/notes";

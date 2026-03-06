@@ -1,6 +1,6 @@
 import { NotesDTO } from "@/types/notes";
 
-export type NoteCardTypes = {
+export type NoteCardType = {
   note: NotesDTO,
   isOptimistic?: boolean,
 }

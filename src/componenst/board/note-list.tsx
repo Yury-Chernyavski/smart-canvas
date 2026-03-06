@@ -1,6 +1,6 @@
 import { FC } from "react";
-import { NoteListProps } from "@/types/board/note-list-types";
-import { NoteCard } from "@/componenst/board/note-card";
+import { NoteListProps } from "@/types/board/note-list.type";
+import { NoteCard } from "@/componenst/card/note-card";
 
 export const NoteList: FC<NoteListProps> = ({ notesList }) => {
   // const notes = use(notePromise);

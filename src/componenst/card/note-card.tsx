@@ -1,6 +1,7 @@
-import type { NoteCardTypes } from "@/types/board/note-card-types";
+import type { NoteCardType } from "@/types/board/note-card.type";
+import { RemoveNoteButton } from "@/componenst/card/remove-note-button";
 
-export function NoteCard({ note, isOptimistic = false }: NoteCardTypes) {
+export function NoteCard({ note, isOptimistic = false }: NoteCardType) {
   return (
     <div
       style={{ background: note.color }}
@@ -18,9 +19,10 @@ export function NoteCard({ note, isOptimistic = false }: NoteCardTypes) {
 
       <div className="mt-auto">
         <span className="text-xs text-gray-400">
-          {note.created_at ? new Date(note.created_at).toLocaleDateString() : '...'}
+          {note.created_at ? new Date(note.created_at).toLocaleDateString('en-US') : '...'}
         </span>
       </div>
+      <RemoveNoteButton noteId={note.id} />
     </div>
   )
 }

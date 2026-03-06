@@ -1,8 +1,8 @@
 'use client'
 
 import { FC } from "react";
-import { SubmitButton } from "@/componenst/card/SubmitButton";
-import { AddNoteFormType } from "@/types/board/add-note-form-types";
+import { SubmitButton } from "@/componenst/card/submit-button";
+import { AddNoteFormType } from "@/types/board/add-note-form.type";
 
 export const AddNoteForm: FC<AddNoteFormType> = ({ state, handleAction }) => {
   return (
