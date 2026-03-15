@@ -34,14 +34,17 @@ export async function createNoteAction(
     return { status: 'error', message: 'Too many characters' };
   }
 
-  const data = await createNote(input);
+  try {
+    const data = await createNote(input);
 
-  after(async () => {
-    await new Promise(res => setTimeout(res, 3000));
-    console.log(`[LOG]: Note created: ${data.id} at ${data.created_at}`);
-  })
-
-  revalidatePath(routes.board);
-
-  return { status: 'success', data };
+    after(async () => {
+      await new Promise(res => setTimeout(res, 3000));
+      console.log(`[LOG]: Note created: ${data.id} at ${data.created_at}`);
+    })
+  
+    revalidatePath(routes.board);
+    return { status: 'success', data };
+  } catch {
+    return {status: 'error', 'message': 'Failed to create note'}
+  }
 }

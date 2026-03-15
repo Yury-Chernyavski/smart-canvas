@@ -1,10 +1,11 @@
 import { JSX, Suspense } from "react";
 import { getNotes } from "@/services/notes";
 import type { NotesDTO } from "@/types/notes";
-import { NotesSkeleton } from "@/componenst/board/note-skeleton";
-import { BoardClient } from "@/componenst/board/board-client";
+import { NotesSkeleton } from "@/components/board/note-skeleton";
+import { BoardClient } from "@/components/board/board-client";
 
-export default function BoardPage (): JSX.Element {
+export default function BoardPage(): JSX.Element {
+  // call the getNotes at the server components and throw data to client component
   const notePromise: Promise<NotesDTO[]> = getNotes();
 
   return (

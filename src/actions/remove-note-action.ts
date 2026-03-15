@@ -13,16 +13,23 @@ export async function removeNoteAction(
   prevState: RemoveNoteAction,
   formData: FormData,
 ): Promise<RemoveNoteAction> {
+  // await new Promise(res => setTimeout(res, 3000))
   const id = formData.get('id')?.toString();
   
   if (!id) {
-    return {status: 'error', message: 'Note id is required'}
+    return { status: 'error', message: 'Note id is required' }
   }
 
-  await removeNote(id);
+  try {
+    await removeNote(id);
+  
+    //TODO: read more about revalidatePath()
+    revalidatePath(routes.board);
+  
+    return {status: 'success'}
 
-  //TODO: read more about revalidatePath()
-  revalidatePath(routes.board);
+  } catch {
+    return {status: 'error', message: 'Failed to remove note'}
+  }
 
-  return {status: 'success'}
 }

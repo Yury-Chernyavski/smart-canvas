@@ -1,7 +1,7 @@
 'use client'
 
 import { FC } from "react";
-import { Button } from "@/componenst/ui/button";
+import { Button } from "@/components/ui/button";
 import { useFormStatus } from "react-dom";
 
 type SubmitButtonProps = {

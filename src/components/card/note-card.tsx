@@ -1,5 +1,5 @@
-import type { NoteCardType } from "@/types/board/note-card.type";
-import { RemoveNoteButton } from "@/componenst/card/remove-note-button";
+import type { NoteCardType } from "@/types/board/note-card-types";
+import { RemoveNoteButton } from "@/components/card/remove-note-button";
 
 export function NoteCard({ note, isOptimistic = false }: NoteCardType) {
   return (
