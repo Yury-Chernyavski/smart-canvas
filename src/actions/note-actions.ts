@@ -1,15 +1,17 @@
 'use server'
 
-import type { CreateNotesDTO, NotesDTO } from "@/types/notes";
+import type { NotesDTO } from "@/types/notes";
 import { createNote } from "@/services/notes";
 import { revalidatePath } from "next/cache";
 import { routes } from "@/lib/routes";
 import { after } from "next/server";
+import { createNoteSchema } from "@/lib/validations/note-schema";
+import { z } from "zod";
 
 export type NoteActionState =
   | {status: 'idle'}
   | {status: 'success', data: NotesDTO}
-  | {status: 'error', message: string};
+  | {status: 'error', message: string, fields?: Record<string, string>};
 
 export async function createNoteAction(
   prevState: NoteActionState,
@@ -19,23 +21,24 @@ export async function createNoteAction(
   // await new Promise(resolve => setTimeout(resolve, 3000));
   const rawData = Object.fromEntries(formData);
 
-  const input: CreateNotesDTO = {
-    content: rawData.content?.toString().trim(),
-    color: rawData.color?.toString(),
-    position_x: Number(rawData.position_x) || 0,
-    position_y: Number(rawData.position_y) || 0,
-  }
+  const parseNote = createNoteSchema.safeParse(rawData);
 
-  if (!input.content) {
-    return { status: 'error', message: 'To write something' }
+  if (!parseNote.success) {
+    const { fieldErrors } = z.flattenError(parseNote.error)
+    console.log("fieldErrors:", fieldErrors);
 
-  }
-  if (input.content.length > 500) {
-    return { status: 'error', message: 'Too many characters' };
+    return {
+      status: "error",
+      message: `The validation error occurred while creating the note`,
+      fields: {
+        content: fieldErrors.content?.[0] ?? '',
+        color: fieldErrors.color?.[0] ?? '',
+      }
+    }
   }
 
   try {
-    const data = await createNote(input);
+    const data = await createNote(parseNote.data);
 
     after(async () => {
       await new Promise(res => setTimeout(res, 3000));
