@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/service";
-import type { CreateNotesDTO, NotesDTO } from "@/types/notes";
+import { CreateNotesDTO } from "@/lib/validations/note-schema";
+import type { NotesDTO } from "@/types/notes";
 
 export const getNotes = async (): Promise<NotesDTO[]> => {
   const supabase = await createClient();
@@ -36,3 +37,11 @@ export const removeNote = async (id: NotesDTO["id"]): Promise<void> => {
     .delete()
     .eq('id', id)
 }
+
+// export const updateNote = async (id: NotesDTO['id'], payload: Partial<NotesDTO>) => {
+//   const supabase = await createClient()
+
+//   const { data, error } = supabase
+//     .from('notes')
+//     .update()
+// }
