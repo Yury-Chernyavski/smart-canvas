@@ -9,12 +9,9 @@ export type RemoveNoteAction =
   | { status: 'success' }
   | { status: 'error', message: string };
 
-export async function removeNoteAction(
-  prevState: RemoveNoteAction,
-  formData: FormData,
-): Promise<RemoveNoteAction> {
+export async function removeNoteAction(id: string): Promise<RemoveNoteAction> {
   // await new Promise(res => setTimeout(res, 3000))
-  const id = formData.get('id')?.toString();
+  // const id = formData.get('id')?.toString();
   
   if (!id) {
     return { status: 'error', message: 'Note id is required' }
