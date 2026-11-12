@@ -6,11 +6,15 @@ import { useBoardContext } from "@/context/board-context"
 import { FC, useState } from "react"
 import { OPTIMISTIC_NOTE } from "@/constants/optimistic-note"
 import { Button } from "@/components/ui/button"
+import { AiSuggestion } from "@/components/card/ai-suggestion"
+import { useAiSuggestion } from "@/hooks/ai-suggestion"
 
 export const AddNoteForm: FC = () => {
 	const { newNote, handleAddAction } = useBoardContext()
 	const [selectedColor, setSelectedColor] = useState<string>(OPTIMISTIC_NOTE.color)
 	const [showPalette, setShowPalette] = useState(false)
+	const [noteContent, setNoteContent] = useState<string>("")
+	const [{ text, isStreaming }, { handleExpand }] = useAiSuggestion(noteContent)
 
 	return (
 		<form action={handleAddAction}>
@@ -21,6 +25,14 @@ export const AddNoteForm: FC = () => {
 				style={{
 					backgroundColor: selectedColor,
 				}}
+				onChange={(e) => {
+					setNoteContent(e.target.value)
+				}}
+				value={
+					text
+						? [noteContent, text]
+						: `${noteContent}`
+				}
 				className="placeholder:text-black text-black"
 			/>
 
@@ -28,6 +40,11 @@ export const AddNoteForm: FC = () => {
 				type="hidden"
 				value={selectedColor}
 				name="color"
+			/>
+
+			<AiSuggestion
+				isStreaming={isStreaming}
+				handleExpand={handleExpand}
 			/>
 
 			<div className="mt-3 flex items-center gap-2">

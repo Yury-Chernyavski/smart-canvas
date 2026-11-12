@@ -22,7 +22,7 @@ export async function updateNoteColorAction(
 	
 
 	try {
-		await new Promise(res => setTimeout(res, 5000))
+		// await new Promise(res => setTimeout(res, 5000))
 		const data = await updateNote(id, { color })
 		revalidatePath(routes.board)
 		return { status: "success", data }
